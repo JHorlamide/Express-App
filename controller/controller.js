@@ -26,7 +26,7 @@ export const testRoute = (req, res) => {
       res.send("Invalid request parameter provided!");
     }
 
-    res.send(resData);
+   res.send(resData)
   } catch (err) {
     console.error(err.message);
     res.status(500).send("Internal server error");
@@ -39,8 +39,14 @@ export const testRoute = (req, res) => {
  * @access  Private
  *  ***/
 export const getAllData = (req, res) => {
+  const resData = req.body;
   try {
-    res.send(data);
+    // res.send(data);
+    res.render("index", {
+      title: 'My Express App',
+      message: 'hello',
+      description: 'Templating engine in Nodejs',
+    });
   } catch (err) {
     console.error(err.message);
     res.status(500).send("Internal server error");
@@ -57,7 +63,7 @@ export const getDataById = (req, res) => {
 
   try {
     const neededData = data.find((d) => {
-      return d.id === parseInt(id);
+      return d.idx === parseInt(id);
     });
 
     if (!neededData) {
@@ -112,7 +118,7 @@ export const updateData = (req, res) => {
 
   try {
     let neededData = data.find((d) => {
-      return d.id === parseInt(req.params.id);
+      return d.idx === parseInt(req.params.id);
     });
 
     if (!neededData) {
@@ -148,7 +154,7 @@ export const deletePost = (req, res) => {
 
   try {
     const neededData = data.find((d) => {
-      return (d.id = parseInt(id));
+      return (d.idx = parseInt(id));
     });
 
     if (!neededData) {

@@ -1,27 +1,32 @@
 import express from "express";
 import helmet from "helmet";
 import morgan from "morgan";
-import config from "config";
+import Debug from "debug";
 
 /*** Custom Component ***/
 import dataRoute from "./routes/route.js";
 
 const app = express();
+const StartUpDebugger = Debug('app:startup');
+const debDebugger = Debug('app:db');
+
+app.set('view engine', 'pug');
+app.set('views', './views');
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static("public"));
 app.use(helmet());
-app.use(express.urlencoded({ extended: true }));
 
 if (process.env.NODE_ENV === "development") {
   app.use(morgan("tiny"));
-  console.log("Morgan enabled...");
+  StartUpDebugger("Morgan enabled...");
+  debDebugger('MongoDB connected')
 }
 
-console.log(`Application name: ${config.get("name")}`);
-console.log(`Application name: ${config.get("mail.host")}`);
-console.log(`Application name: ${config.get("mail.password")}`);
+// console.log(`Application name: ${config.get("name")}`);
+// console.log(`Application name: ${config.get("mail.host")}`);
+// console.log(`Application name: ${config.get("mail.password")}`);
 
 const port = process.env.PORT || 3000;
 
